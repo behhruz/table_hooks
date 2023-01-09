@@ -21,7 +21,7 @@ const TableH = styled.th`
 const TableD = styled.td`
   border: 1px solid #eceeef;
   text-align: center;
-  color: ${({confirmed})=>confirmed && "#3C763D"};
+  color: ${({ confirmed }) => confirmed && "#3C763D"};
 `;
 const Inputs = styled.input`
   background-color: #ffffff;
