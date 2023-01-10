@@ -19,10 +19,12 @@ import Images3 from "../Assets/Container.png";
 const Hooks = () => {
   const [Data, setData] = useState(Dataes);
   const [User, setUser] = useState({});
+  const [open, SetOpen] = useState(false);
+  const [download, SetDownload] = useState("");
 
   // delete function
-  const OnDelete = (login) => {
-    setData(Data.filter((i) => i.login !== login));
+  const OnDelete = (id) => {
+    setData(Data.filter((i) => i.id !== id));
   };
   // add function
   const OnChange = ({ target: { value, name } }) => {
@@ -38,7 +40,28 @@ const Hooks = () => {
       setData(res);
     }
   };
+  // Edit function
 
+  const OnEdit = (prop, id) => {
+    switch (prop) {
+      case `all${id}`: {
+        SetOpen(`all${id}`);
+        SetDownload(prop);
+        break;
+      }
+
+      case `user${id}`: {
+        SetOpen(false);
+        SetDownload(prop);
+        break;
+      }
+      case `email${id}`: {
+        SetOpen(false);
+        SetDownload(prop);
+        break;
+      }
+    }
+  };
   return (
     <>
       <Container>
@@ -109,21 +132,56 @@ const Hooks = () => {
             {Data.map((v) => {
               return (
                 <TableR key={v.id}>
-                  <TableD>{v.id}</TableD>
-                  <TableD>{v.username}</TableD>
-                  <TableD>{v.email}</TableD>
-                  <TableD>{v.ip}</TableD>
-                  <TableD>{v.time}</TableD>
-                  <TableD>{v.login}</TableD>
-                  <TableD confirmed>{v.confirmation}</TableD>
+                  <TableD>
+                    {open == `all${v.id}` ? <Inputs></Inputs> : v.id}
+                  </TableD>
+                  <TableD>
+                    {open == `all${v.id}` || download == `user${v.id}` ? (
+                      <Inputs user></Inputs>
+                    ) : (
+                      v.username
+                    )}
+                  </TableD>
+                  <TableD>
+                    {open == `all${v.id}` || download == `email${v.id}` ? (
+                      <Inputs email></Inputs>
+                    ) : (
+                      v.email
+                    )}
+                  </TableD>
+                  <TableD>
+                    {open == `all${v.id}` ? <Inputs ip></Inputs> : v.ip}
+                  </TableD>
+                  <TableD>
+                    {open == `all${v.id}` ? <Inputs time></Inputs> : v.time}
+                  </TableD>
+                  <TableD>
+                    {open == `all${v.id}` ? <Inputs login></Inputs> : v.login}
+                  </TableD>
+                  <TableD confirmed>
+                    {open == `all${v.id}` ? (
+                      <Inputs confirmation></Inputs>
+                    ) : (
+                      v.confirmation
+                    )}
+                  </TableD>
                   <TableD>
                     <Button>Block</Button>
                   </TableD>
                   <TableD>
-                    <Image src={Images} />
-                    <Image src={Images1} />
-                    <Image src={Images2} />
-                    <Image onClick={() => OnDelete(v.login)} src={Images3} />
+                    <Image
+                      onClick={() => OnEdit(`user${v.id}`, v.id)}
+                      src={Images}
+                    />
+                    <Image
+                      onClick={() => OnEdit(`email${v.id}`, v.id)}
+                      src={Images1}
+                    />
+                    <Image
+                      onClick={() => OnEdit(`all${v.id}`, v.id)}
+                      src={Images2}
+                    />
+                    <Image onClick={() => OnDelete(v.id)} src={Images3} />
                   </TableD>
                 </TableR>
               );
