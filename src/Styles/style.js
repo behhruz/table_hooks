@@ -41,7 +41,7 @@ const Button = styled.button`
   background-color: #d9534f;
   border: 1px solid #d9534f;
   border-radius: 4px;
-  width: 76px;
+  width: 77px;
   height: 22px;
   color: white;
   &:active {
